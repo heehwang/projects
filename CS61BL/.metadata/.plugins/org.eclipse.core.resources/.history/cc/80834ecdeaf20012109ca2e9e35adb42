@@ -1,0 +1,27 @@
+public class BinarySearchTree extends BinaryTree{
+
+	
+public boolean contains(Integer key){
+	if(myRoot == null){
+		return false;
+	}
+	else if (((Integer)myRoot.myItem).compareTo(key) == 0){
+		return true;
+	}
+	else if (((Integer)myRoot.myItem).compareTo(key) < 0)
+		return myRoot.myLeft.contains(key);
+	else
+		return myRight.contains(key);
+		
+}
+
+
+
+public void add(Comparable){
+	
+}
+
+
+
+
+}

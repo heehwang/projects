@@ -1,0 +1,9 @@
+public class LineNumber {
+
+	public LineNumber(){
+myNum = 1;
+	}
+
+
+
+}

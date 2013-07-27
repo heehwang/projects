@@ -1,0 +1,28 @@
+public class TheoremSet {
+
+	public TheoremSet() {
+	}
+
+	public Expression put(String s, Expression e) {
+		return null;
+	}
+}
+
+// mp
+// 1. p:T
+// 2. p=>q:T
+// 3. Then q is T
+//
+// mt
+// 1. q:F
+// 2. p=>q:T
+// 3. Then p is F
+//
+// ic
+// 1. q:T
+// 2. Then p=>q is T
+//
+// co
+// 1. x = 1
+// 2. x != 1
+// 3. Then its contradiction

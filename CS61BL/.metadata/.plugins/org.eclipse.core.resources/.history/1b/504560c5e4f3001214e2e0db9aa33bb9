@@ -1,0 +1,301 @@
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+import java.util.Stack;
+
+public class Expression {
+
+	// constructor
+	public Expression(String expr) throws IllegalLineException {
+		// check for correct input
+		int opens = 0;
+		int closes = 0;
+		if ((expr == null) || (expr.equals(""))) {
+			throw new IllegalLineException("string must not be blank");
+		}
+		for (int i = 0; i < expr.length(); i++) {
+			char x = expr.charAt(i);
+			String X = expr.substring(i, i + 1);
+			String okchars = "()&|=>~";
+			if (!Character.isLetter(x) && (!okchars.contains(X))) {
+				throw new IllegalLineException("character not allowed");
+			}
+			try {
+				if ((expr.charAt(i) == '=') && (expr.charAt(i + 1) != '>')) {
+					throw new IllegalLineException("character not allowed");
+				}
+				if ((expr.charAt(i) == '>') && (expr.charAt(i - 1) != '=')) {
+					throw new IllegalLineException("character not allowed");
+				}
+			} catch (StringIndexOutOfBoundsException e) {
+				throw new IllegalLineException("character not allowed");
+			}
+			if (x == '(') {
+				opens++;
+			}
+			if (x == ')') {
+				closes++;
+			}
+		}
+		if (opens != closes) {
+			throw new IllegalLineException("unmatched parentheses");
+		}
+
+		try {
+			myRoot = exprTree(expr);
+		} catch (Exception e) {
+			throw new IllegalLineException(e.getMessage());
+		}
+	}
+
+	// sample trees to test things
+	public void fillSampleTree1() {
+		if (iAmDebugging) {
+			myRoot = new ExpressionNode("a", new ExpressionNode("b"),
+					new ExpressionNode("c"));
+		}
+	}
+
+	public void fillSampleTree2() {
+		if (iAmDebugging) {
+			myRoot = new ExpressionNode("a", new ExpressionNode("b",
+					new ExpressionNode("d", new ExpressionNode("e"),
+							new ExpressionNode("f")), null),
+					new ExpressionNode("c"));
+		}
+	}
+
+	public void fillSampleTree3() {
+		if (iAmDebugging) {
+			myRoot = new ExpressionNode("a", new ExpressionNode("b"),
+					new ExpressionNode("c", new ExpressionNode("d",
+							new ExpressionNode("e"), new ExpressionNode("f")),
+							null));
+		}
+	}
+
+	public void fillSampleTree4() {
+		if (iAmDebugging) {
+			myRoot = new ExpressionNode("a", new ExpressionNode("b",
+					new ExpressionNode("d"), new ExpressionNode("e")),
+					new ExpressionNode("c", new ExpressionNode("f"),
+							new ExpressionNode("g")));
+		}
+	}
+
+	// method to draw the tree
+	public void print() {
+		if (myRoot != null) {
+			printHelper(myRoot, 0);
+		}
+	}
+
+	private static final String indent1 = "    ";
+
+	private static void printHelper(ExpressionNode root, int indent) {
+		if (root.myRight != null) {
+			printHelper(root.myRight, indent + 1);
+		}
+
+		println(root.myItem, indent);
+
+		if (root.myLeft != null) {
+			printHelper(root.myLeft, indent + 1);
+		}
+	}
+
+	private static void println(Object obj, int indent) {
+		for (int k = 0; k < indent; k++) {
+			System.out.print(indent1);
+		}
+		System.out.println(obj);
+	}
+
+	// the node object
+	private static class ExpressionNode {
+		public Object myItem;
+		public ExpressionNode myLeft;
+		public ExpressionNode myRight;
+
+		public ExpressionNode(Object obj) {
+			myItem = obj;
+			myLeft = myRight = null;
+		}
+
+		public ExpressionNode(Object obj, ExpressionNode left,
+				ExpressionNode right) {
+			myItem = obj;
+			myLeft = left;
+			myRight = right;
+		}
+
+		public String toString() {
+			return myItem.toString();
+		}
+
+		public static boolean equals(ExpressionNode e1, ExpressionNode e2) {
+			if ((e1 == null) && (e2 == null)) {
+				return true;
+			}
+			if ((e1 == null) && (e2 != null)) {
+				return false;
+			}
+			if ((e1 != null) && (e2 == null)) {
+				return false;
+			}
+			if (!e1.myItem.equals(e2.myItem)) {
+				return false;
+			}
+			return (equals(e1.myLeft, e2.myLeft) && equals(e1.myRight,
+					e2.myRight));
+
+		}
+	}
+
+	public boolean equals(Object E) {
+		return ExpressionNode.equals(myRoot, ((Expression) E).myRoot);
+	}
+
+	/*
+	 * public static Expression exprTree(String s) { Expression result = new
+	 * Expression(); result.myRoot = result.exprTreeHelper(s); // also need to
+	 * check for illegal input return result; }
+	 */
+
+	private ExpressionNode exprTree(String expr) throws IllegalLineException {
+		String opnd1, opnd2, op;
+
+		if ((expr == null) || (expr.equals(""))) {
+			return null;
+		}
+
+		if (expr.charAt(0) != '(') {
+			if (expr.contains("&")) {
+				throw new IllegalLineException(
+						"& statements take two arguments and must be enclosed in parentheses");
+			}
+			if (expr.contains("|")) {
+				throw new IllegalLineException(
+						"| statements take two arguments and must be enclosed in parentheses");
+			}
+			if (expr.contains("=>")) {
+				throw new IllegalLineException(
+						"=> statements take two arguments and must be enclosed in parentheses");
+			}
+			if (expr.charAt(0) == '~') {
+				if (expr.length() < 2) {
+					throw new IllegalLineException(
+							"Invalid input: an expression must follow ~");
+				}
+				opnd1 = expr.substring(1, expr.length());
+				return new ExpressionNode("~", exprTree(opnd1), null);
+			} else if (expr.length() > 1) {
+				throw new IllegalLineException(
+						"variables may only be one letter");
+			}
+			return new ExpressionNode(expr);
+			// assume every sub-expression is in parentheses
+			// so the only one without parentheses is a single variable
+		} else {
+			// expr is a parenthesized expression.
+			int nesting = 0; // probably should be 0
+			int opPos = 0;
+			boolean isImplication = false; // If it is '=>' symbol, this boolean
+											// value is set to true.
+
+			for (int k = 1; k < expr.length() - 1; k++) {
+				// this skips the enclosing parentheses, so it sees main
+				// operation at nesting=0
+				// find the main operator (an occurrence of + or * not nested in
+				// parentheses
+				if (expr.charAt(k) == '(') {
+					nesting++;
+				}
+				if (expr.charAt(k) == ')') {
+					nesting--;
+				}
+				if ((nesting == 0)
+						&& ((expr.charAt(k) == '&') || (expr.charAt(k) == '|'))) {
+					opPos = k;
+					break;
+				} else if ((nesting == 0) && (expr.charAt(k) == '=')
+						&& (expr.charAt(k + 1) == '>')) {
+					opPos = k;
+					isImplication = true;
+					break;
+				}
+			}
+
+			try {
+				if (isImplication) {
+					op = expr.substring(opPos, opPos + 2);
+					opnd1 = expr.substring(1, opPos);
+					opnd2 = expr.substring(opPos + 2, expr.length() - 1);
+				} else {
+					op = expr.substring(opPos, opPos + 1);
+					opnd1 = expr.substring(1, opPos);
+					opnd2 = expr.substring(opPos + 1, expr.length() - 1);
+				}
+			} catch (StringIndexOutOfBoundsException e) {
+				throw new IllegalArgumentException("Invalid input");
+			}
+			if (iAmDebugging) {
+				System.out.println("expression = " + expr);
+				System.out.println("operand 1  = " + opnd1);
+				System.out.println("operator   = " + op);
+				System.out.println("operand 2  = " + opnd2);
+				System.out.println();
+			}
+
+			if (op != "~") {
+				if (opnd1.isEmpty() || opnd2.isEmpty()) {
+					throw new IllegalArgumentException(
+							"Invalid input: &, |, and => take two arguments");
+				}
+			}
+			// construct the two subtrees.
+			return new ExpressionNode(op, exprTree(opnd1), exprTree(opnd2));
+		}
+	}
+
+	public Iterator<ExpressionNode> allExpr() {
+		return new ExprIterator();
+	}
+
+	private class ExprIterator implements Iterator<ExpressionNode> {
+		// ExpressionNodes in the family are enumerated in preorder,
+		// with children enumerated oldest first.
+		// This exprIterator is Depth-first.
+
+		private Stack<ExpressionNode> fringe = new Stack<ExpressionNode>();
+
+		public ExprIterator() {
+			if (myRoot != null) {
+				fringe.push(myRoot);
+			}
+		}
+
+		public boolean hasNext() {
+			return !fringe.empty(); // check if there is something in fringe.
+		}
+
+		public ExpressionNode next() {
+			if (!hasNext()) {
+				throw new NoSuchElementException("tree ran out of elements");
+			}
+
+			// Be careful! index is one less than the size.
+			ExpressionNode curExpr = fringe.pop();
+			if (curExpr.myRight != null) {
+				fringe.push(curExpr.myRight);
+			}
+			if (curExpr.myLeft != null) {
+				fringe.push(curExpr.myLeft);
+			}
+			return curExpr;
+		}
+
+		public void remove() {
+			// not used
+		}
+	} // end of depth first ExprIterator nested class
+}

@@ -1,0 +1,24 @@
+public class LineNumber {
+
+	private int lineNumber;
+
+	public LineNumber() {
+		lineNumber = 0;
+	}
+
+	public LineNumber(int n) {
+		lineNumber = n;
+	}
+
+	public LineNumber increment() {
+		return new LineNumber(lineNumber + 1);
+	}
+
+	public String toString() {
+		return "" + lineNumber;
+	}
+
+	public boolean equals(Object obj) {
+		return this.toString().equals(obj.toString());
+	}
+}

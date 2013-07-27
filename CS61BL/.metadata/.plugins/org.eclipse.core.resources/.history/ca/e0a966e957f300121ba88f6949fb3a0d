@@ -1,0 +1,46 @@
+import org.junit.Assert.*;
+import junit.framework.TestCase;
+import org.junit.Test;
+import java.util.*;
+
+public class ExpressionTest extends TestCase {
+
+	/*
+	 * public void testConstrution1() { Expression x = new Expression();
+	 * x.fillSampleTree4();// currently has fillSampleTree 1 through 4
+	 * x.print(); }
+	 * 
+	 * public void testExpressionTreeAndOr() { Expression x =
+	 * Expression.exprTree("((0&3)|y)"); x.print(); }
+	 */
+	public void testExpressionTreeNot1() {
+		Expression x = Expression.exprTree("~y");
+		x.print();
+	}
+
+	public void testExpressionTreeNot2() {
+		Expression x = Expression.exprTree("(~y&w)");
+		x.print();
+	}
+
+	public void testExpressionTreeNot2Reverse() {
+		Expression x = Expression.exprTree("(w&~y)");
+		x.print();
+	}
+
+	public void testExpressionTreeImplies() {
+		Expression x = Expression.exprTree("(w=>y)");
+		x.print();
+	}
+
+	public void testExpressionTreeImpliesNot() {
+		Expression x = Expression.exprTree("(~a=>(~b=>~(a|b)))");
+		x.print();
+	}
+
+	public void testExpressionTreeInvalidOnlyNot() {
+		Expression x = Expression.exprTree("~");
+		x.print();
+	}
+
+}

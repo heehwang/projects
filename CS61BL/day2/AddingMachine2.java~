@@ -1,0 +1,20 @@
+int k; 
+ int previous = -99999; 
+ int total = 0; 
+ int subtotal = 0; 
+ k = scanner.nextInt ( ); 
+ while (true) { 
+ 	if (k == 0 && previous == 0) { 
+ 		print the total and quit; 
+ 	} 
+ 	else if (k == 0) { 
+ 		add the subtotal to the total; 
+ 		print the subtotal and set it to 0; 
+ 		set previous to 0; 
+ 	} 
+ 	else { 
+ 		add k to the subtotal; 
+ 		set previous to k; 
+ 	} 
+ 	k = scanner.nextInt ( ); 
+ } 

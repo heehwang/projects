@@ -1,0 +1,25 @@
+import java.util.ArrayList;
+
+import junit.framework.TestCase;
+
+public class PhoneBook_version2Test extends TestCase {
+	/*
+	 * Tests that you can add a person,number pair to the book and later access
+	 * the number for that person.
+	 */
+	public void testCanAddAndGet() {
+		PhoneBook myBook = new PhoneBook();
+		Person person1 = new Person("Sally");
+		PhoneNumber num1 = new PhoneNumber("5105551234");
+		Person person2 = new Person("Anne");
+		PhoneNumber num2 = new PhoneNumber("5105551235");
+		Person person3 = new Person("Zora");
+		PhoneNumber num3 = new PhoneNumber("5105551236");
+
+		myBook.addEntry(person1, num1);
+		myBook.addEntry(person1, num2);
+		myBook.addEntry(person1, num3);
+
+		ArrayList<PhoneNumber> nums = myBook.getNumber2(person1);
+	}
+}

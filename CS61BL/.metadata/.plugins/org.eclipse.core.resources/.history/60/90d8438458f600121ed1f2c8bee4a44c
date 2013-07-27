@@ -1,0 +1,8 @@
+1 show (p=>((p=>q)=>q))
+2 assume p
+3 show ((p=>q)=>q)
+3.1 assume (p=>q)
+3.2 show q
+3.2.1 mp 2 3.1 q
+3.3 ic 3.2 ((p=>q)=>q)
+4 ic 3 (p=>((p=>q)=>q))

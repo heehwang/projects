@@ -1,0 +1,23 @@
+public class BinarySearchTree extends BinaryTree {
+
+	public boolean contains(Comparable key) {
+		return containsHelper(key, myRoot);
+	}
+
+	public boolean containsHelper(Comparable key, TreeNode t) {
+		if (myRoot == null) {
+			return false;
+		} else if (key.compareTo(t.myItem) == 0) {
+			return true;
+		} else if (key.compareTo(t.myItem) < 0) {
+			return containsHelper(key, t.myLeft);
+		} else {
+			return containsHelper(key, t.myRight);
+		}
+	}
+
+	public void add() {
+
+	}
+
+}

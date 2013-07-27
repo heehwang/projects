@@ -1,0 +1,12 @@
+import junit.framework.TestCase;
+
+import org.junit.Test;
+
+public class AmoebaFamilyTest extends TestCase {
+
+	@Test
+	public void test() {
+		fail("Not yet implemented");
+	}
+
+}

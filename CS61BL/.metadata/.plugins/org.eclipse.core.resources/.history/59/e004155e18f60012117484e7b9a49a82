@@ -1,0 +1,26 @@
+import java.util.HashMap;
+
+public class Fibonacci {
+	int callsToFib;
+	int result;
+	HashMap<Integer, Integer> alreadySeen;
+
+	public Fibonacci(int n) {
+		this.callsToFib = 0;
+		this.result = fib(n);
+		this.alreadySeen = new HashMap<Integer, Integer>();
+	}
+
+	public int fib(int n) {
+		return fibHelper(n, alreadySeen);
+	}
+
+	private int fibHelper(int n, HashMap<Integer, Integer> alreadySeen) {
+		if(n==0 || n==1){
+				return 1;
+		}
+		
+	
+	
+	}
+}

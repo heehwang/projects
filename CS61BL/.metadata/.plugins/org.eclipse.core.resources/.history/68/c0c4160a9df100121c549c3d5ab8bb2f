@@ -1,0 +1,20 @@
+import junit.framework.TestCase;
+
+public class ExpressionTest extends TestCase {
+
+	public void testConstrution1() {
+		Expression x = new Expression();
+		x.fillSampleTree4();// currently has fillSampleTree 1 through 4
+		x.print();
+	}
+
+	public void testExpressionTreeAndOr() {
+		Expression x = Expression.exprTree("((0&3)|y)");
+		x.print();
+	}
+
+	public void testExpressionTreeAndOr() {
+		Expression x = Expression.exprTree("((0=>y)");
+		x.print();
+	}
+}

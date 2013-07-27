@@ -1,0 +1,16 @@
+import junit.framework.TestCase;
+
+public class BinaryTreeTest extends TestCase{
+
+	public void testHeight{
+	BinaryTree t;
+	t = new BinaryTree();
+	print(t, "the empty tree");
+	t.fillSampleTree1();
+	print(t, "sample tree 1");
+	t.fillSampleTree2();
+	print(t, "sample tree 2");
+	t.fillSampleTree3();
+	print(t, "sample tree 3");
+	}
+}

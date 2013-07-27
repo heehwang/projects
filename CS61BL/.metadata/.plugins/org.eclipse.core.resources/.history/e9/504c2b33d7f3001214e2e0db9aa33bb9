@@ -1,0 +1,9 @@
+public class LineNumber {
+
+	protected int myNum;
+
+	public LineNumber() {
+		myNum = 1;
+	}
+
+}

@@ -1,0 +1,41 @@
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+import java.util.Stack;
+
+import com.sun.org.apache.xpath.internal.ExpressionNode;
+
+public class ExprIterator implements Iterator<ExpressionNode> {
+		// ExpressionNodes in the family are enumerated in preorder,
+		// with children enumerated oldest first.
+		// This exprIterator is Depth-first.
+
+		private Stack<ExpressionNode> fringe = new Stack<ExpressionNode>();
+
+		public exprIterator() {
+			if (myRoot != null) {
+				fringe.push(myRoot);
+			}
+		}
+
+		public boolean hasNext() {
+			return !fringe.empty(); // check if there is something in fringe.
+		}
+
+		public ExpressionNode next() {
+			if (!hasNext()) {
+				throw new NoSuchElementException("tree ran out of elements");
+			}
+
+			// Be careful! index is one less than the size.
+			ExpressionNode currentExpr = fringe.pop();
+			if (currentExpr.myRight != null) {
+				fringe.push(currentExpr.myRight);
+				fringe.push(currentExpr.myLeft);
+			}
+			return currentExpr;
+		}
+
+		public void remove() {
+			// not used
+		}
+	} // end of depth first ExprIterator nested class

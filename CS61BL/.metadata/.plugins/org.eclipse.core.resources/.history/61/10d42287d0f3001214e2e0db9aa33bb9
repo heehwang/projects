@@ -1,0 +1,10 @@
+import junit.framework.*;
+
+public class TestTest extends TestCase {
+
+	@Test
+	public void test() {
+		fail("Not yet implemented");
+	}
+
+}

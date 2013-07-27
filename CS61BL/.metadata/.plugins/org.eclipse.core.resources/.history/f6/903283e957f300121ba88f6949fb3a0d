@@ -1,0 +1,185 @@
+//import org.junit.Assert.*;
+import junit.framework.TestCase;
+
+import java.util.*;
+
+public class ExpressionTest extends TestCase {
+    // changed tests to use constructor instead of exprTree
+    // note that tests need a try/catch structure to compile
+    // because constructor can throw an exception
+    // (or just test with exprTree instead)
+    // also note that testExpressionTreeInvalidOnlyNot should fail
+
+    /*public void testConstrution1() {
+        Expression x = new Expression();
+        x.fillSampleTree4();// currently has fillSampleTree 1 through 4
+        x.print();
+    }*/
+
+    public void testExpressionTreeAndOr() {
+        System.out.println();
+        try{
+            Expression x = new Expression("((a&b)|y)");
+            x.print();
+        }catch (IllegalLineException e) {
+            System.out.println(e.getMessage());
+        }
+       
+    }
+
+    public void testExpressionTreeNot1() {
+        System.out.println();
+        try {
+            Expression x = new Expression("~y");
+            x.print();
+        } catch (IllegalLineException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void testExpressionTreeNot2() {
+        System.out.println();
+        try {
+            Expression x = new Expression("(~y&w)");
+            x.print();
+        } catch (IllegalLineException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void testExpressionTreeNot2Reverse() {
+        System.out.println();
+        try {
+            Expression x = new Expression("(w&~y)");
+            x.print();
+        } catch (IllegalLineException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void testExpressionTreeImplies() {
+        System.out.println();
+        try {
+            Expression x = new Expression("(w=>y)");
+            x.print();
+        } catch (IllegalLineException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void testExpressionTreeImpliesNot() {
+        System.out.println();
+        try {
+            Expression x = new Expression("(~a=>(~b=>~(a|b)))");
+            x.print();
+        } catch (IllegalLineException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void testExpressionTreeInvalidOnlyNot() {
+        System.out.println();
+        try {
+            Expression x = new Expression("~");
+            x.print();
+        } catch (IllegalLineException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+   
+    public void testInvalidUnmatched() {
+        System.out.println();
+        try {
+            Expression x = new Expression("(y&a))");
+            x.print();
+        } catch (IllegalLineException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+    public void testInvalidChar() {
+        System.out.println();
+        try {
+            Expression x = new Expression("(2&r)");
+            x.print();
+        } catch (IllegalLineException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+    public void testInvalidChar2() {
+        System.out.println();
+        try {
+            Expression x = new Expression("( &r)");
+            x.print();
+        } catch (IllegalLineException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+    public void testInvalidChar3() {
+        System.out.println();
+        try {
+            Expression x = new Expression("(x|>=)");
+            x.print();
+        } catch (IllegalLineException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+    public void testInvalidDoubleLetter() {
+        System.out.println();
+        try {
+            Expression x = new Expression("(x|no)");
+            x.print();
+        } catch (IllegalLineException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+   
+    public void testInvalidMissingArgOr() {
+        System.out.println();
+        try {
+            Expression x = new Expression("(x|)");
+            x.print();
+        } catch (IllegalLineException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+   
+    public void testInvalidMissingArgAnd() {
+        System.out.println();
+        try {
+            Expression x = new Expression("(x&)");
+            x.print();
+        } catch (IllegalLineException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+   
+    public void testInvalidMissingArgImplies() {
+        System.out.println();
+        try {
+            Expression x = new Expression("(x=>)");
+            x.print();
+        } catch (IllegalLineException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+   
+    public void testInvalidExtraArgNot() {
+        System.out.println();
+        try {
+            Expression x = new Expression("(x~u)");
+            x.print();
+        } catch (IllegalLineException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+    public void testInvalidNeedsParentheses() {
+        System.out.println();
+        try {
+            Expression x = new Expression("(x&~b|u)");
+            x.print();
+        } catch (IllegalLineException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+}

@@ -1,0 +1,14 @@
+public class Test{
+	
+	
+	public static void main(String[] args){
+		
+		
+		
+		p        ArrayList al = new ArrayList();
+		        al.add("hello");
+		        al.add("world");
+		        System.out.println(al);
+		 
+	}
+}
