@@ -1,0 +1,138 @@
+import java.util.NoSuchElementException;
+
+abstract public class AbstractListNode {
+
+	abstract public Comparable first();
+
+	abstract public AbstractListNode rest();
+
+	abstract public boolean isEmpty();
+
+	abstract public int size();
+
+	abstract public Comparable get(int index);
+
+	abstract public String toString();
+
+	abstract public String toString(String currentString);
+
+	abstract public boolean equals(AbstractListNode n);
+
+	// Every other list-processing method goes here.
+
+	public Comparable smallest() {
+	    if(isEmpty()){
+		throw new NoSuchElementException("can't find smallest in empty list");
+	    }
+	    return ;
+
+	}
+
+}
+
+class NonemptyListNode extends AbstractListNode {
+
+	private Comparable myFirst;
+	private AbstractListNode myRest;
+
+	// cons in Scheme.
+	public NonemptyListNode(Comparable first, AbstractListNode rest) {
+		myFirst = first;
+		if (rest == null) {
+			myRest = new EmptyListNode();
+		} else {
+			myRest = rest;
+		}
+	}
+
+	public NonemptyListNode(Comparable first) {
+		this(first, new EmptyListNode());
+	}
+
+	// car in Scheme.
+	public Comparable first() {
+		return myFirst;
+	}
+
+	// cdr in Scheme.
+	public AbstractListNode rest() {
+		return myRest;
+	}
+
+	public boolean isEmpty() {
+		return false;
+	}
+
+	public int size() {
+		return 1 + myRest.size();
+	}
+
+	public Comparable get(int index) {
+		if (index + 1 > this.size())
+			throw new IllegalArgumentException("Out of Range");
+		else if (index == 0) {
+			return myFirst;
+		} else {
+			index = index - 1;
+			AbstractListNode l = this.myRest;
+			return l.get(index);
+		}
+	}
+
+	public String toString() {
+		return this.toString("");
+	}
+
+	public String toString(String currentString) {
+		return myRest.toString(currentString + " " + myFirst.toString());
+	}
+
+	public boolean equals(AbstractListNode n) {
+		if (this.myFirst.equals(n.first()))
+			return myRest.equals(n.rest());
+		else
+			return false;
+	}
+}
+
+class EmptyListNode extends AbstractListNode {
+	public EmptyListNode() {
+	}
+
+	public Comparable first() {
+		throw new IllegalArgumentException(
+				"There is no 'first' value stored in an EmptyListNode.");
+	}
+
+	public AbstractListNode rest() {
+		throw new IllegalArgumentException(
+				"No elements follow an EmptyListNode.");
+	}
+
+	public boolean isEmpty() {
+		return true;
+	}
+
+	public int size() {
+		return 0;
+	}
+
+	public Comparable get(int index) {
+		throw new IllegalArgumentException("Out of Range");
+	}
+
+	public String toString() {
+		return this.toString("");
+	}
+
+	public String toString(String currentString) {
+		return "(" + currentString + " )";
+	}
+
+	public boolean equals(AbstractListNode n) {
+		if (this.isEmpty() == n.isEmpty())
+			return true;
+		else
+			return false;
+	}
+}
