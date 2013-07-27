@@ -1,7 +1,0 @@
-1. version a(one loop version)
-
-2. I preper version b, which is one loop version.       
-   Since "version b" uses Daisy-chaining if, which executes selected line 
-   depending on the condition. On the contrary, "version a" uses nested if, 
-   which executes whole lines of the code inside of the if statement. 
-

@@ -1,9 +1,0 @@
-public class LineNumber {
-
-	private int myNum;
-
-	public LineNumber() {
-		myNum = 1;
-	}
-
-}

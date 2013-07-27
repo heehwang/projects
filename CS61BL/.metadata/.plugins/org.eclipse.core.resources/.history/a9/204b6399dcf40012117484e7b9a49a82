@@ -1,2 +1,0 @@
-buildAnd (a=>(b=>(a&b)))
-demorgan2 ((~a&~b)=>(a|b))

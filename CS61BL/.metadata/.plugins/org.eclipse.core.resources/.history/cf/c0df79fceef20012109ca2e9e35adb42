@@ -1,8 +1,0 @@
-import junit.framework.TestCase;
-
-public class BinarySearchTreeTest extends TestCase {
-	BinaryTree t;
-	t = new BinaryTree();
-	t.fillSampleTree1();
-
-}

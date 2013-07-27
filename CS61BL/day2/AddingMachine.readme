@@ -1,8 +1,0 @@
-1. version a(one loop version)
-
-2. I preper version b, which is one loop version.       
-   Since "version b" uses Daisy-chaining if, which executes selected line 
-   depending on the condition. On the contrary, "version a" executes whole 
-   lines of the code inside of the if statement. In version b, it is also 
-   easier to see how the code works, since it has only one loop and uses
-   scanner only once per loop.
